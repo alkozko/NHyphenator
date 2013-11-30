@@ -7,20 +7,29 @@ namespace NHyphenator
 	public class Pattern : IComparer<Pattern>, IComparable<Pattern>
 	{
 		private readonly string str;
+		private readonly int[] levels;
 
-		public int[] Levels { get; set; }
+		public int GetLevelByIndex(int index)
+		{
+			return levels[index];
+		}
+
+		public int GetLevelsCount()
+		{
+			return levels.Length;
+		}
 
 		public Pattern(string str, IEnumerable<int> levels)
 		{
 			this.str = str;
-			Levels = levels.ToArray();
+			this.levels = levels.ToArray();
 		}
 
 
 		public Pattern(string str)
 		{
 			this.str = str;
-			Levels = new int[0];
+			levels = new int[0];
 		}
 
 		public static int Compare(Pattern x, Pattern y)
