@@ -29,7 +29,7 @@ namespace NHyphenator
 		{
 			this.hyphenateSymbol = hyphenateSymbol;
 			this.minWordLength = minWordLength;
-			this.minLetterCount = minLetterCount;
+			this.minLetterCount = minLetterCount >= 0 ? minLetterCount : 0;
 			this.hypenateLastWord = hypenateLastWord;
 			LoadPatterns(language);
 		}
@@ -145,8 +145,13 @@ namespace NHyphenator
 
 		private void CorrectMask(int[] hyphenationMask)
 		{
-			Array.Clear(hyphenationMask, 0, minLetterCount);
-			Array.Clear(hyphenationMask, hyphenationMask.Length - 3, minLetterCount);
+			if (hyphenationMask.Length > minLetterCount)
+			{
+				Array.Clear(hyphenationMask, 0, minLetterCount);
+				Array.Clear(hyphenationMask, hyphenationMask.Length - minLetterCount, minLetterCount);
+			}
+			else
+				Array.Clear(hyphenationMask, 0, hyphenationMask.Length);
 		}
 
 		private bool ValidForHypenate(string originalWord)
