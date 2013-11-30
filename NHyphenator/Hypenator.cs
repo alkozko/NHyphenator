@@ -121,14 +121,14 @@ namespace NHyphenator
 				int patternIndex = 0;
 				for (int count = 1; count <= wordString.Length - i; ++count)
 				{
-					var patternFromWord = new Pattern {Str = wordString.Substring(i, count)};
+					var patternFromWord = new Pattern(wordString.Substring(i, count));
 					if (Pattern.Compare(patternFromWord, patterns[patternIndex]) < 0)
 						continue;
 					patternIndex = patterns.FindIndex(patternIndex, pattern => Pattern.Compare(pattern, patternFromWord) > 0);
 					if (patternIndex == -1)
 						break;
 					if (Pattern.Compare(patternFromWord, patterns[patternIndex]) >= 0)
-						for (int levelIndex = 0; levelIndex < patterns[patternIndex].Levels.Count - 1; ++levelIndex)
+						for (int levelIndex = 0; levelIndex < patterns[patternIndex].Levels.Length - 1; ++levelIndex)
 						{
 							int level = patterns[patternIndex].Levels[levelIndex];
 							if (level > levels[i + levelIndex])
@@ -176,7 +176,7 @@ namespace NHyphenator
 
 		private Pattern CreatePattern(string pattern)
 		{
-			var levels = new List<int>();
+			var levels = new List<int>(pattern.Length);
 			var resultStr = new StringBuilder();
 			bool waitDigit = true;
 			foreach (char c in pattern)
@@ -198,7 +198,7 @@ namespace NHyphenator
 			if (waitDigit)
 				levels.Add(0);
 
-			return new Pattern {Str = resultStr.ToString(), Levels = levels};
+			return new Pattern(resultStr.ToString(), levels);
 		}
 	}
 

@@ -1,27 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NHyphenator
 {
 	public class Pattern : IComparer<Pattern>, IComparable<Pattern>
 	{
-		public string Str { get; set; }
-		public List<int> Levels { get; set; }
+		private readonly string str;
 
-		public Pattern()
+		public int[] Levels { get; set; }
+
+		public Pattern(string str, IEnumerable<int> levels)
 		{
-			Levels = new List<int>();
+			this.str = str;
+			Levels = levels.ToArray();
+		}
+
+
+		public Pattern(string str)
+		{
+			this.str = str;
+			Levels = new int[0];
 		}
 
 		public static int Compare(Pattern x, Pattern y)
 		{
-			bool first = x.Str.Length < y.Str.Length;
-			int minSize = first ? x.Str.Length : y.Str.Length;
+			bool first = x.str.Length < y.str.Length;
+			int minSize = first ? x.str.Length : y.str.Length;
 			for (var i = 0; i < minSize; ++i)
 			{
-				if (x.Str[i] < y.Str[i])
+				if (x.str[i] < y.str[i])
 					return -1;
-				if (x.Str[i] > y.Str[i])
+				if (x.str[i] > y.str[i])
 					return 1;
 			}
 			return first ? -1 : 1;
