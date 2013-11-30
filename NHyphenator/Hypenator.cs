@@ -10,17 +10,19 @@ namespace NHyphenator
 	public class Hypenator
 	{
 		private const char Marker = '.';
+		private readonly bool hypenateLastWord;
 		private readonly string hyphenateSymbol;
+		private readonly int minLetterCount;
 		private readonly int minWordLength;
-		private readonly int minCount;
-		private Dictionary<string, WordHyphenation> exceptions = new Dictionary<string, WordHyphenation>();
+		private Dictionary<string, int[]> exceptions = new Dictionary<string, int[]>();
 		private List<Pattern> patterns;
 
-		public Hypenator(HypenatePatternsLanguage language, string hyphenateSymbol, int minWordLength = 5, int minCount = 3)
+		public Hypenator(HypenatePatternsLanguage language, string hyphenateSymbol, int minWordLength = 5, int minLetterCount = 3, bool hypenateLastWord = false)
 		{
 			this.hyphenateSymbol = hyphenateSymbol;
 			this.minWordLength = minWordLength;
-			this.minCount = minCount;
+			this.minLetterCount = minLetterCount;
+			this.hypenateLastWord = hypenateLastWord;
 			LoadPatterns(language);
 		}
 
@@ -54,26 +56,48 @@ namespace NHyphenator
 		{
 			var currentWord = new StringBuilder();
 			var result = new StringBuilder();
-
-			string lastWord = FindLastWord(text);
-			if (lastWord.Length > 0)
-				text = text.Remove(text.Length - lastWord.Length);
-			foreach (char c in text)
+			if (hypenateLastWord == false)
 			{
-				if (char.IsLetter(c))
-					currentWord.Append(c);
-				else
-				{
-					if (currentWord.Length > 0)
-					{
-						result.Append(HyphenateWord(currentWord.ToString()));
-						currentWord.Clear();
-					}
-					result.Append(c);
-				}
-			}
+				string lastWord = FindLastWord(text);
+				if (lastWord.Length > 0)
+					text = text.Remove(text.Length - lastWord.Length);
 
-			return result.Append(HyphenateWord(currentWord.ToString())).Append(lastWord).ToString();
+				foreach (char c in text)
+				{
+					if (char.IsLetter(c))
+						currentWord.Append(c);
+					else
+					{
+						if (currentWord.Length > 0)
+						{
+							result.Append(HyphenateWord(currentWord.ToString()));
+							currentWord.Clear();
+						}
+						result.Append(c);
+					}
+				}
+
+				return result.Append(HyphenateWord(currentWord.ToString())).Append(lastWord).ToString();
+			}
+			else
+			{
+				foreach (char c in text)
+				{
+					if (char.IsLetter(c))
+						currentWord.Append(c);
+					else
+					{
+						if (currentWord.Length > 0)
+						{
+							result.Append(HyphenateWord(currentWord.ToString()));
+							currentWord.Clear();
+						}
+						result.Append(c);
+					}
+				}
+
+				return result.Append(HyphenateWord(currentWord.ToString())).ToString();
+			}
 		}
 
 		private string FindLastWord(string phrase)
@@ -98,7 +122,7 @@ namespace NHyphenator
 				return originalWord;
 
 			string word = originalWord.ToLowerInvariant();
-			WordHyphenation hyphenationMask;
+			int[] hyphenationMask;
 			if (exceptions.ContainsKey(word))
 				hyphenationMask = exceptions[word];
 			else
@@ -110,10 +134,10 @@ namespace NHyphenator
 			return HyphenateByMask(originalWord, hyphenationMask);
 		}
 
-		private void CorrectMask(WordHyphenation hyphenationMask)
+		private void CorrectMask(int[] hyphenationMask)
 		{
-			Array.Clear(hyphenationMask.Mask,0,minCount);
-			Array.Clear(hyphenationMask.Mask, hyphenationMask.MaskSize - 3, minCount);
+			Array.Clear(hyphenationMask, 0, minLetterCount);
+			Array.Clear(hyphenationMask, hyphenationMask.Length - 3, minLetterCount);
 		}
 
 		private bool ValidForHypenate(string originalWord)
@@ -148,39 +172,36 @@ namespace NHyphenator
 			return levels;
 		}
 
-		private static WordHyphenation CreateHyphenateMaskFromLevels(int[] levels)
+		private static int[] CreateHyphenateMaskFromLevels(int[] levels)
 		{
-			var hyphenationMask = new WordHyphenation {MaskSize = levels.Length - 2, Mask = new int[levels.Length - 2]};
-			for (int i = 0; i < hyphenationMask.MaskSize; i++)
+			int length = levels.Length - 2;
+			var hyphenationMask = new int[length];
+			for (int i = 0; i < length; i++)
 			{
-				if (levels[i + 1]%2 != 0 && i != 0)
-					hyphenationMask.Mask[i] = 1;
+				if (i != 0 && levels[i + 1]%2 != 0)
+					hyphenationMask[i] = 1;
 				else
-					hyphenationMask.Mask[i] = 0;
+					hyphenationMask[i] = 0;
 			}
 			return hyphenationMask;
 		}
 
-		private string HyphenateByMask(string originalWord, WordHyphenation hyphenationMask)
+		private string HyphenateByMask(string originalWord, int[] hyphenationMask)
 		{
 			var result = new StringBuilder();
 			for (int i = 0; i < originalWord.Length; i++)
 			{
-				if (hyphenationMask.Mask[i] > 0)
+				if (hyphenationMask[i] > 0)
 					result.Append(hyphenateSymbol);
 				result.Append(originalWord[i]);
 			}
 			return result.ToString();
 		}
 
-		private WordHyphenation CreateHyphenateMaskFromExceptionString(string s)
+		private int[] CreateHyphenateMaskFromExceptionString(string s)
 		{
-			int[] array = Regex.Split(s, @"[a-z]",RegexOptions.Compiled).Select(c => c == "-" ? 1 : 0).ToArray();
-			return new WordHyphenation
-				{
-					Mask = array,
-					MaskSize = array.Length
-				};
+			int[] array = Regex.Split(s, @"[a-z]", RegexOptions.Compiled).Select(c => c == "-" ? 1 : 0).ToArray();
+			return array;
 		}
 
 		private Pattern CreatePattern(string pattern)

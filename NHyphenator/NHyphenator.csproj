@@ -48,7 +48,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Patterns.resx</DependentUpon>
     </Compile>
-    <Compile Include="WordHypenation.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Patterns.resx">
