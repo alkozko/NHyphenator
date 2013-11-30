@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace NHyphenator
 {
-	public class Pattern : IComparer<Pattern>, IComparable<Pattern>
+	internal sealed class Pattern : IComparer<Pattern>, IComparable<Pattern>
 	{
 		private readonly string str;
 		private readonly int[] levels;

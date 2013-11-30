@@ -17,7 +17,15 @@ namespace NHyphenator
 		private Dictionary<string, int[]> exceptions = new Dictionary<string, int[]>();
 		private List<Pattern> patterns;
 
-		public Hypenator(HypenatePatternsLanguage language, string hyphenateSymbol, int minWordLength = 5, int minLetterCount = 3, bool hypenateLastWord = false)
+		/// <summary>
+		/// Implementation of Frank Liang's hyphenation algorithm
+		/// </summary>
+		/// <param name="language">Language for load hyphenation patterns</param>
+		/// <param name="hyphenateSymbol">Symbol used for denote hyphenation</param>
+		/// <param name="minWordLength">Minimum word length for hyphenation word</param>
+		/// <param name="minLetterCount">Minimum number of characters left on line</param>
+		/// <param name="hypenateLastWord">Hyphenate last word</param>
+		public Hypenator(HypenatePatternsLanguage language, string hyphenateSymbol = "&shy;", int minWordLength = 5, int minLetterCount = 3, bool hypenateLastWord = false)
 		{
 			this.hyphenateSymbol = hyphenateSymbol;
 			this.minWordLength = minWordLength;
@@ -28,6 +36,8 @@ namespace NHyphenator
 
 		private void LoadPatterns(HypenatePatternsLanguage language)
 		{
+			//Used TEX hyphenation patterns. Read more on http://tug.org/tex-hyphen/
+
 			switch (language)
 			{
 				case HypenatePatternsLanguage.EnglishUs:
@@ -79,25 +89,24 @@ namespace NHyphenator
 
 				return result.Append(HyphenateWord(currentWord.ToString())).Append(lastWord).ToString();
 			}
-			else
-			{
-				foreach (char c in text)
-				{
-					if (char.IsLetter(c))
-						currentWord.Append(c);
-					else
-					{
-						if (currentWord.Length > 0)
-						{
-							result.Append(HyphenateWord(currentWord.ToString()));
-							currentWord.Clear();
-						}
-						result.Append(c);
-					}
-				}
 
-				return result.Append(HyphenateWord(currentWord.ToString())).ToString();
+
+			foreach (char c in text)
+			{
+				if (char.IsLetter(c))
+					currentWord.Append(c);
+				else
+				{
+					if (currentWord.Length > 0)
+					{
+						result.Append(HyphenateWord(currentWord.ToString()));
+						currentWord.Clear();
+					}
+					result.Append(c);
+				}
 			}
+
+			return result.Append(HyphenateWord(currentWord.ToString())).ToString();
 		}
 
 		private string FindLastWord(string phrase)
