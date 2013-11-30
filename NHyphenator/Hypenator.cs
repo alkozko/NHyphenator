@@ -103,7 +103,7 @@ namespace NHyphenator
 				hyphenationMask = exceptions[word];
 			else
 			{
-				int[] levels = GenerateLevelsFowWord(word);
+				int[] levels = GenerateLevelsForWord(word);
 				hyphenationMask = CreateHyphenateMaskFromLevels(levels);
 				CorrectMask(hyphenationMask);
 			}
@@ -121,7 +121,7 @@ namespace NHyphenator
 			return originalWord.Length <= minWordLength;
 		}
 
-		private int[] GenerateLevelsFowWord(string word)
+		private int[] GenerateLevelsForWord(string word)
 		{
 			string wordString = new StringBuilder().Append(Marker).Append(word).Append(Marker).ToString();
 			var levels = new int[wordString.Length];
