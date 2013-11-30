@@ -64,33 +64,24 @@ namespace NHyphenator
 
 		public string HyphenateText(string text)
 		{
-			var currentWord = new StringBuilder();
-			var result = new StringBuilder();
 			if (hyphenateLastWord == false)
 			{
 				string lastWord = FindLastWord(text);
 				if (lastWord.Length > 0)
 					text = text.Remove(text.Length - lastWord.Length);
 
-				foreach (char c in text)
-				{
-					if (char.IsLetter(c))
-						currentWord.Append(c);
-					else
-					{
-						if (currentWord.Length > 0)
-						{
-							result.Append(HyphenateWord(currentWord.ToString()));
-							currentWord.Clear();
-						}
-						result.Append(c);
-					}
-				}
-
-				return result.Append(HyphenateWord(currentWord.ToString())).Append(lastWord).ToString();
+				var result = HyphenateWordsInText(text);
+			
+				return result.Append(lastWord).ToString();
 			}
 
+			return HyphenateWordsInText(text).ToString();
+		}
 
+		private StringBuilder HyphenateWordsInText(string text)
+		{
+			var currentWord = new StringBuilder();
+			var result = new StringBuilder();
 			foreach (char c in text)
 			{
 				if (char.IsLetter(c))
@@ -106,7 +97,8 @@ namespace NHyphenator
 				}
 			}
 
-			return result.Append(HyphenateWord(currentWord.ToString())).ToString();
+			result.Append(HyphenateWord(currentWord.ToString()));
+			return result;
 		}
 
 		private string FindLastWord(string phrase)
