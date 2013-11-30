@@ -17,17 +17,19 @@ namespace NHypenator.Tests
 			var hypenator = new Hypenator(HypenatePatternsLanguage.EnglishUs, "-");
 			var stopWatches = new List<long>();
 
-			for (int i = 0; i < 100; i++)
+			for (int i = 0; i < 200; i++)
 			{
 				var	startNew = Stopwatch.StartNew();
 				hypenator.HyphenateText(text);
 				startNew.Stop();
 
-				if (i > 2)
+				if (i > 10)
 					stopWatches.Add(startNew.ElapsedMilliseconds);
 			}
 
-			Console.WriteLine(((double)stopWatches.Sum())/stopWatches.Count);
+			var avg = stopWatches.Average();
+			var disp = stopWatches.Select(x => Math.Abs(avg - x)).Max();
+			Console.WriteLine("{0} ± {1}",avg,disp);
 		}		
 		
 		[Test]
@@ -45,10 +47,12 @@ namespace NHypenator.Tests
 				startNew.Stop();
 
 				if (i > 2)
-					stopWatches.Add(startNew.ElapsedTicks);
+					stopWatches.Add(startNew.ElapsedMilliseconds);
 			}
 
-			Console.WriteLine(((double)stopWatches.Sum())/stopWatches.Count);
+			var avg = stopWatches.Average();
+			var disp = stopWatches.Select(x => Math.Abs(avg - x)).Max();
+			Console.WriteLine("{0} ± {1}", avg, disp);
 		}
 	}
 }
