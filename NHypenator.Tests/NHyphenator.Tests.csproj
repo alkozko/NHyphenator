@@ -7,8 +7,8 @@
     <ProjectGuid>{B8D697D6-32DB-4AD4-8836-8D8A448B7C7C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NHypenator.Tests</RootNamespace>
-    <AssemblyName>NHypenator.Tests</AssemblyName>
+    <RootNamespace>NHyphenator.Tests</RootNamespace>
+    <AssemblyName>NHyphenator.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -7,10 +7,10 @@ using System.Text.RegularExpressions;
 
 namespace NHyphenator
 {
-	public class Hypenator
+	public class Hyphenator
 	{
 		private const char Marker = '.';
-		private readonly bool hypenateLastWord;
+		private readonly bool hyphenateLastWord;
 		private readonly string hyphenateSymbol;
 		private readonly int minLetterCount;
 		private readonly int minWordLength;
@@ -24,29 +24,29 @@ namespace NHyphenator
 		/// <param name="hyphenateSymbol">Symbol used for denote hyphenation</param>
 		/// <param name="minWordLength">Minimum word length for hyphenation word</param>
 		/// <param name="minLetterCount">Minimum number of characters left on line</param>
-		/// <param name="hypenateLastWord">Hyphenate last word, NOTE: this option work only if input text contains not one word</param>
-		public Hypenator(HypenatePatternsLanguage language, string hyphenateSymbol = "&shy;", int minWordLength = 5, int minLetterCount = 3, bool hypenateLastWord = false)
+		/// <param name="hyphenateLastWord">Hyphenate last word, NOTE: this option work only if input text contains not one word</param>
+		public Hyphenator(HyphenatePatternsLanguage language, string hyphenateSymbol = "&shy;", int minWordLength = 5, int minLetterCount = 3, bool hyphenateLastWord = false)
 		{
 			this.hyphenateSymbol = hyphenateSymbol;
 			this.minWordLength = minWordLength;
 			this.minLetterCount = minLetterCount >= 0 ? minLetterCount : 0;
-			this.hypenateLastWord = hypenateLastWord;
+			this.hyphenateLastWord = hyphenateLastWord;
 			LoadPatterns(language);
 		}
 
-		private void LoadPatterns(HypenatePatternsLanguage language)
+		private void LoadPatterns(HyphenatePatternsLanguage language)
 		{
 			//Used TEX hyphenation patterns. Read more on http://tug.org/tex-hyphen/
 
 			switch (language)
 			{
-				case HypenatePatternsLanguage.EnglishUs:
+				case HyphenatePatternsLanguage.EnglishUs:
 					CreatePatterns(Patterns.hyph_en_us_pat, Patterns.hyph_en_us_hyp);
 					break;
-				case HypenatePatternsLanguage.EnglishBritish:
+				case HyphenatePatternsLanguage.EnglishBritish:
 					CreatePatterns(Patterns.hyph_en_gb_pat, Patterns.hyph_en_us_hyp);
 					break;
-				case HypenatePatternsLanguage.Russian:
+				case HyphenatePatternsLanguage.Russian:
 					CreatePatterns(Patterns.hyph_ru_pat, Patterns.hyph_ru_hyp);
 					break;
 				default:
@@ -66,7 +66,7 @@ namespace NHyphenator
 		{
 			var currentWord = new StringBuilder();
 			var result = new StringBuilder();
-			if (hypenateLastWord == false)
+			if (hyphenateLastWord == false)
 			{
 				string lastWord = FindLastWord(text);
 				if (lastWord.Length > 0)
@@ -127,7 +127,7 @@ namespace NHyphenator
 
 		private string HyphenateWord(string originalWord)
 		{
-			if (ValidForHypenate(originalWord))
+			if (ValidForHyphenate(originalWord))
 				return originalWord;
 
 			string word = originalWord.ToLowerInvariant();
@@ -154,7 +154,7 @@ namespace NHyphenator
 				Array.Clear(hyphenationMask, 0, hyphenationMask.Length);
 		}
 
-		private bool ValidForHypenate(string originalWord)
+		private bool ValidForHyphenate(string originalWord)
 		{
 			return originalWord.Length <= minWordLength;
 		}
@@ -246,7 +246,7 @@ namespace NHyphenator
 		}
 	}
 
-	public enum HypenatePatternsLanguage
+	public enum HyphenatePatternsLanguage
 	{
 		EnglishUs,
 		EnglishBritish,
