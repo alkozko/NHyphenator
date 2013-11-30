@@ -110,19 +110,15 @@ namespace NHyphenator
 			return HyphenateByMask(originalWord, hyphenationMask);
 		}
 
-		private static void CorrectMask(WordHyphenation hyphenationMask)
+		private void CorrectMask(WordHyphenation hyphenationMask)
 		{
-			hyphenationMask.Mask[0] = 0;
-			hyphenationMask.Mask[1] = 0;
-			hyphenationMask.Mask[2] = 0;
-			hyphenationMask.Mask[hyphenationMask.MaskSize - 1] = 0;
-			hyphenationMask.Mask[hyphenationMask.MaskSize - 2] = 0;
-			hyphenationMask.Mask[hyphenationMask.MaskSize - 3] = 0;
+			Array.Clear(hyphenationMask.Mask,0,minCount);
+			Array.Clear(hyphenationMask.Mask, hyphenationMask.MaskSize - 3, minCount);
 		}
 
-		private static bool ValidForHypenate(string originalWord)
+		private bool ValidForHypenate(string originalWord)
 		{
-			return originalWord.Length <= 5;
+			return originalWord.Length <= minWordLength;
 		}
 
 		private int[] GenerateLevelsFowWord(string word)
