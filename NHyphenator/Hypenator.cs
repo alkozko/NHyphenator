@@ -11,12 +11,16 @@ namespace NHyphenator
 	{
 		private const char Marker = '.';
 		private readonly string hyphenateSymbol;
+		private readonly int minWordLength;
+		private readonly int minCount;
 		private Dictionary<string, WordHyphenation> exceptions = new Dictionary<string, WordHyphenation>();
 		private List<Pattern> patterns;
 
-		public Hypenator(HypenatePatternsLanguage language, string hyphenateSymbol)
+		public Hypenator(HypenatePatternsLanguage language, string hyphenateSymbol, int minWordLength = 5, int minCount = 3)
 		{
 			this.hyphenateSymbol = hyphenateSymbol;
+			this.minWordLength = minWordLength;
+			this.minCount = minCount;
 			LoadPatterns(language);
 		}
 
@@ -43,7 +47,6 @@ namespace NHyphenator
 			var sep = new[] {' ', '\n', '\r'};
 			patterns = patternsString.Split(sep, StringSplitOptions.RemoveEmptyEntries).Select(CreatePattern).ToList();
 			exceptions = exeptionsString.Split(sep, StringSplitOptions.RemoveEmptyEntries).ToDictionary(x => x.Replace("-", ""), CreateHyphenateMaskFromExceptionString);
-			;
 		}
 
 
@@ -89,9 +92,9 @@ namespace NHyphenator
 			return string.Empty;
 		}
 
-		public string HyphenateWord(string originalWord)
+		private string HyphenateWord(string originalWord)
 		{
-			if (originalWord.Length <= 5)
+			if (ValidForHypenate(originalWord))
 				return originalWord;
 
 			string word = originalWord.ToLowerInvariant();
@@ -102,14 +105,24 @@ namespace NHyphenator
 			{
 				int[] levels = GenerateLevelsFowWord(word);
 				hyphenationMask = CreateHyphenateMaskFromLevels(levels);
-				hyphenationMask.Mask[0] = 0;
-				hyphenationMask.Mask[1] = 0;
-				hyphenationMask.Mask[2] = 0;
-				hyphenationMask.Mask[hyphenationMask.MaskSize - 1] = 0;
-				hyphenationMask.Mask[hyphenationMask.MaskSize - 2] = 0;
-				hyphenationMask.Mask[hyphenationMask.MaskSize - 3] = 0;
+				CorrectMask(hyphenationMask);
 			}
 			return HyphenateByMask(originalWord, hyphenationMask);
+		}
+
+		private static void CorrectMask(WordHyphenation hyphenationMask)
+		{
+			hyphenationMask.Mask[0] = 0;
+			hyphenationMask.Mask[1] = 0;
+			hyphenationMask.Mask[2] = 0;
+			hyphenationMask.Mask[hyphenationMask.MaskSize - 1] = 0;
+			hyphenationMask.Mask[hyphenationMask.MaskSize - 2] = 0;
+			hyphenationMask.Mask[hyphenationMask.MaskSize - 3] = 0;
+		}
+
+		private static bool ValidForHypenate(string originalWord)
+		{
+			return originalWord.Length <= 5;
 		}
 
 		private int[] GenerateLevelsFowWord(string word)
@@ -128,9 +141,9 @@ namespace NHyphenator
 					if (patternIndex == -1)
 						break;
 					if (Pattern.Compare(patternFromWord, patterns[patternIndex]) >= 0)
-						for (int levelIndex = 0; levelIndex < patterns[patternIndex].Levels.Length - 1; ++levelIndex)
+						for (int levelIndex = 0; levelIndex < patterns[patternIndex].GetLevelsCount() - 1; ++levelIndex)
 						{
-							int level = patterns[patternIndex].Levels[levelIndex];
+							int level = patterns[patternIndex].GetLevelByIndex(levelIndex);
 							if (level > levels[i + levelIndex])
 								levels[i + levelIndex] = level;
 						}
