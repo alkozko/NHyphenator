@@ -17,7 +17,7 @@ namespace NHypenator.Tests
 		}		
 		
 		[Test]
-		public void ExceprionTest()
+		public void ExceptionTest()
 		{
 			Assert.AreEqual("phil•an•thropic", hypenator.HyphenateText("philanthropic"));
 		}
@@ -66,7 +66,7 @@ namespace NHypenator.Tests
 		}		
 		
 		[Test]
-		public void MinLetterCountDontRiseException()
+		public void MinLetterCountDontRaiseException()
 		{
 			var text = @"disciplines";
 			var expected = @"disciplines";
@@ -75,7 +75,7 @@ namespace NHypenator.Tests
 		}			
 		
 		[Test]
-		public void MinLetterCountDontRiseExceptionIfNegativeValue()
+		public void MinLetterCountDontRaiseExceptionIfNegativeValue()
 		{
 			var text = @"disciplines";
 			var expected = @"dis-ci-plines";
@@ -93,7 +93,7 @@ namespace NHypenator.Tests
 		}		
 		
 		[Test]
-		public void MinWordLengthDontRiseExceptionTest()
+		public void MinWordLengthDontRaiseExceptionTest()
 		{
 			var text = @"disciplines";
 			var expected = @"dis-ci-plines";
