@@ -5,7 +5,15 @@ Read more about algorithm on http://en.wikipedia.org/wiki/Hyphenation_algorithm
 
 This implementation contains original TEX hyphenation patterns (see http://tug.org/tex-hyphen/) for British and American English, and Russian language 
 
+NuGet
+===============
+https://www.nuget.org/packages/NHyphenator/
+
+Example
+===============
 
 Simple usage example:
+```c#
 Hypenator hypenator = new Hypenator(HypenatePatternsLanguage.EnglishUs, "-");
 var result = hypenator.HyphenateText(text);
+```
