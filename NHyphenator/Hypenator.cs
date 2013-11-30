@@ -24,7 +24,7 @@ namespace NHyphenator
 		/// <param name="hyphenateSymbol">Symbol used for denote hyphenation</param>
 		/// <param name="minWordLength">Minimum word length for hyphenation word</param>
 		/// <param name="minLetterCount">Minimum number of characters left on line</param>
-		/// <param name="hypenateLastWord">Hyphenate last word</param>
+		/// <param name="hypenateLastWord">Hyphenate last word, NOTE: this option work only if input text contains not one word</param>
 		public Hypenator(HypenatePatternsLanguage language, string hyphenateSymbol = "&shy;", int minWordLength = 5, int minLetterCount = 3, bool hypenateLastWord = false)
 		{
 			this.hyphenateSymbol = hyphenateSymbol;
@@ -116,7 +116,7 @@ namespace NHyphenator
 			{
 				if (char.IsLetter(phrase[i]))
 					currentWord.Append(phrase[i]);
-				else if (currentWord.Length > 0 && currentWord.ToString().Any(char.IsLetter) && currentWord.Length < 10)
+				else if (currentWord.Length > 0 && currentWord.ToString().Any(char.IsLetter))
 					return new string(currentWord.ToString().Reverse().ToArray());
 				else
 					currentWord.Append(phrase[i]);
