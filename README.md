@@ -17,3 +17,11 @@ Simple usage example:
 Hypenator hypenator = new Hypenator(HypenatePatternsLanguage.EnglishUs, "-");
 var result = hypenator.HyphenateText(text);
 ```
+
+Licence
+===============
+Source code are distributed under MIT licence. 
+Hyphenation patterns are distributed under LaTeX Project Public License.
+
+
+Подробнее о библиотеке можно прочесть на русском в моем блоге http://alkozko.ru/Blog/Post/liang-hyphenation-algorithm-on-c-sharp
