@@ -24,4 +24,6 @@ Source code are distributed under MIT licence.
 Hyphenation patterns are distributed under LaTeX Project Public License.
 
 
-Подробнее о библиотеке можно прочесть на русском в моем блоге http://alkozko.ru/Blog/Post/liang-hyphenation-algorithm-on-c-sharp
+
+
+Подробнее о библиотеке можно прочесть (на русском) в моем блоге http://alkozko.ru/Blog/Post/liang-hyphenation-algorithm-on-c-sharp
