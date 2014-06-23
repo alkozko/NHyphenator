@@ -98,6 +98,17 @@ namespace NHyphenator.Tests
 			var expected = @"dis-ci-plines";
 			var hyphenateText = new Hyphenator(HyphenatePatternsLanguage.EnglishUs, "-", minWordLength:-50).HyphenateText(text);
 			Assert.AreEqual(expected, hyphenateText);
+		}		
+        
+        
+        
+        [Test]
+		public void CrashOnExceptionWord()
+		{
+			var text = @"сегодня";
+            var expected = @"се-го-дня";
+			var hyphenateText = new Hyphenator(HyphenatePatternsLanguage.Russian, "-", -50).HyphenateText(text);
+			Assert.AreEqual(expected, hyphenateText);
 		}
 		
 	}

@@ -16,6 +16,7 @@ namespace NHyphenator
 		private readonly int minWordLength;
 		private Dictionary<string, int[]> exceptions = new Dictionary<string, int[]>();
 		private List<Pattern> patterns;
+        private static Regex createMaskRegex = new Regex(@"\w", RegexOptions.Compiled);
 
 		/// <summary>
 		/// Implementation of Frank Liang's hyphenation algorithm
@@ -206,7 +207,9 @@ namespace NHyphenator
 
 		private int[] CreateHyphenateMaskFromExceptionString(string s)
 		{
-			int[] array = Regex.Split(s, @"[a-z]", RegexOptions.Compiled).Select(c => c == "-" ? 1 : 0).ToArray();
+            int[] array = createMaskRegex.Split(s)
+                .Select(c => c == "-" ? 1 : 0)
+                .ToArray();
 			return array;
 		}
 
