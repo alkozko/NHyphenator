@@ -50,6 +50,9 @@ namespace NHyphenator
 				case HyphenatePatternsLanguage.Russian:
 					CreatePatterns(Patterns.hyph_ru_pat, Patterns.hyph_ru_hyp);
 					break;
+				case HyphenatePatternsLanguage.Danish:
+					CreatePatterns(Patterns.hyph_da_pat, Patterns.hyph_da_hyp);
+					break;
 				default:
 					throw new ArgumentOutOfRangeException("language");
 			}
@@ -245,6 +248,7 @@ namespace NHyphenator
 	{
 		EnglishUs,
 		EnglishBritish,
-		Russian
+		Russian,
+        Danish
 	}
 }

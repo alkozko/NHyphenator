@@ -110,6 +110,5 @@ namespace NHyphenator.Tests
 			var hyphenateText = new Hyphenator(HyphenatePatternsLanguage.Russian, "-", -50).HyphenateText(text);
 			Assert.AreEqual(expected, hyphenateText);
 		}
-		
 	}
 }
