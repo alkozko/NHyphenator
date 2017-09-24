@@ -5,12 +5,12 @@ namespace NHyphenator.Tests
 	[TestFixture]
 	public class HyphenatorTests
 	{
-		readonly Hyphenator hyphenator = new Hyphenator(HyphenatePatternsLanguage.EnglishUs, "•");
 
 		[Test]
 		public void PatternsTest()
 		{
-			Assert.AreEqual("sub•di•vi•sion", hyphenator.HyphenateText("subdivision"));
+            var hyphenator = new Hyphenator(HyphenatePatternsLanguage.EnglishUs, "•");
+            Assert.AreEqual("sub•di•vi•sion", hyphenator.HyphenateText("subdivision"));
 			Assert.AreEqual("cre•ative", hyphenator.HyphenateText("creative"));
 			Assert.AreEqual("dis•ci•plines", hyphenator.HyphenateText("disciplines"));
 		}		
@@ -18,7 +18,8 @@ namespace NHyphenator.Tests
 		[Test]
 		public void ExceptionTest()
 		{
-			Assert.AreEqual("phil•an•thropic", hyphenator.HyphenateText("philanthropic"));
+            var hyphenator = new Hyphenator(HyphenatePatternsLanguage.EnglishUs, "•");
+            Assert.AreEqual("phil•an•thropic", hyphenator.HyphenateText("philanthropic"));
 		}
 
 		[Test]
@@ -100,16 +101,13 @@ namespace NHyphenator.Tests
 			Assert.AreEqual(expected, hyphenateText);
 		}		
         
-        
-        
         [Test]
-		public void CrashOnExceptionWord()
+		public void DoNotCrashOnRussianWords()
 		{
 			var text = @"сегодня";
             var expected = @"се-го-дня";
 			var hyphenateText = new Hyphenator(HyphenatePatternsLanguage.Russian, "-", -50).HyphenateText(text);
 			Assert.AreEqual(expected, hyphenateText);
 		}
-		
 	}
 }
