@@ -2,3 +2,4 @@
 */bin/*
 *.suo
 *.user
+*.vs/*
