@@ -1,29 +1,49 @@
-NHyphenator
-===========
-C# implementation of Frank Liang's hyphenation algorithm (also known as Knuth-Liang algorithm) 
+# NHyphenator
+
+C# implementation of Frank Liang's hyphenation algorithm (also known as Knuth-Liang algorithm).
 Read more about algorithm on http://en.wikipedia.org/wiki/Hyphenation_algorithm
 
 This implementation contains original TEX hyphenation patterns (see http://tug.org/tex-hyphen/) for British and American English, and Russian language 
 
-NuGet
-===============
+## NuGet
+
 https://www.nuget.org/packages/NHyphenator/
 
-Example
-===============
+## Example
 
-Simple usage example:
+### Simple usage example:
+
 ```c#
-Hypenator hypenator = new Hypenator(HypenatePatternsLanguage.EnglishUs, "-");
+var loader = new ResourceHyphenatePatternsLoader(HyphenatePatternsLanguage.Russian);
+Hypenator hypenator = new Hypenator(loader, "-");
 var result = hypenator.HyphenateText(text);
 ```
 
-Licence
-===============
+### Adding new languages
+
+This library contains build-in patterns for English and Russian languages (stored in .resx file)
+
+You can add (or update) language patterns through creating own implementation of `IHyphenatePatternsLoader` interface for load patterns from file
+
+```c#
+public class MyPatternsLoader : IHyphenatePatternsLoader
+{
+    public string LoadExceptions() => File.ReadAllText("../data/hyph-fr.pat.txt");
+    public string LoadPatterns() => File.ReadAllText("../data/hyph-fr.hyp.txt");
+}
+...
+var loader = new MyPatternsLoader();
+var hypenator = new Hyphenator(loader, "-");
+```
+
+You can find patterns [here](https://github.com/hyphenation/tex-hyphen/tree/master/hyph-utf8/tex/generic/hyph-utf8/patterns/txt):
+`.pat.txt` files contain patterns, `.hyp.txt` files contain exceptions
+
+## Licence
+
 Source code are distributed under MIT licence. 
 Hyphenation patterns are distributed under LaTeX Project Public License.
 
-
-
+## Russian descripton
 
 Подробнее о библиотеке можно прочесть (на русском) в моем блоге http://alkozko.ru/Blog/Post/liang-hyphenation-algorithm-on-c-sharp
