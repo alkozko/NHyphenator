@@ -141,7 +141,8 @@ namespace NHyphenator
 			if (hyphenationMask.Length > _minLetterCount)
 			{
 				Array.Clear(hyphenationMask, 0, _minLetterCount);
-				Array.Clear(hyphenationMask, hyphenationMask.Length - _minLetterCount, _minLetterCount);
+			    var correctionLength = _minLetterCount > 0 ? _minLetterCount - 1 : 0;
+				Array.Clear(hyphenationMask, hyphenationMask.Length - correctionLength, correctionLength);
 			}
 			else
 				Array.Clear(hyphenationMask, 0, hyphenationMask.Length);
