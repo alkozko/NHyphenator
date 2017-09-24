@@ -55,11 +55,14 @@ namespace NHyphenator
 
 	    private void LoadPatterns(IHyphenatePatternsLoader loader)
 	    {
-	        CreatePatterns(loader.LoadPatterns(), loader.LoadExceptions());
+	        CreatePatterns(loader.LoadPatterns() ?? "", loader.LoadExceptions() ?? "");
         }
 
 		private void CreatePatterns(string patternsString, string exeptionsString)
 		{
+            if (string.IsNullOrWhiteSpace(patternsString))
+                throw new ArgumentException("Patterns must countain at least one pattern");
+
 			var sep = new[] {' ', '\n', '\r'};
 			_patterns = patternsString.Split(sep, StringSplitOptions.RemoveEmptyEntries).Select(CreatePattern).ToList();
 			_exceptions = exeptionsString.Split(sep, StringSplitOptions.RemoveEmptyEntries).ToDictionary(x => x.Replace("-", ""), CreateHyphenateMaskFromExceptionString);

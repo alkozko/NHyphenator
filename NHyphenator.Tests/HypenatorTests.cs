@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System;
+using Moq;
+using NUnit.Framework;
 
 namespace NHyphenator.Tests
 {
@@ -126,6 +128,32 @@ namespace NHyphenator.Tests
 		    Hyphenator hypenator = new Hyphenator(new ResourceHyphenatePatternsLoader(HyphenatePatternsLanguage.Russian), "-", 2, 2);
 		    var hyphenateText = hypenator.HyphenateText(text);
             Assert.AreEqual("об-ра-бо-та-но", hyphenateText);
+		}
+
+        [Test]
+		public void LoadingDataByLoaderWithoutExceptions()
+		{
+		    var text = "автобиография";
+		    var loader = new Mock<IHyphenatePatternsLoader>();
+		    loader.Setup(x => x.LoadPatterns())
+                .Returns(@"
+3био
+                ");
+		    loader.Setup(x => x.LoadExceptions()).Returns((string) null);
+		    Hyphenator hypenator = new Hyphenator(loader.Object, "-", 0, 0);
+		    var hyphenateText = hypenator.HyphenateText(text);
+            Assert.AreEqual("авто-биография", hyphenateText);
+		}
+
+        [Test]
+		public void ThrowExceptionWhenEmptyPatterns()
+		{
+		    var loader = new Mock<IHyphenatePatternsLoader>();
+		    loader.Setup(x => x.LoadPatterns()).Returns((string) null);
+		    Assert.Throws<ArgumentException>(() =>
+		    {
+		        var hyphenator = new Hyphenator(loader.Object, "-");
+		    });
 		}
 	}
 }
