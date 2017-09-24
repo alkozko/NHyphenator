@@ -40,7 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ResourceHyphenatePatternsLoader.cs" />
     <Compile Include="Hyphenator.cs" />
+    <Compile Include="IHyphenatePatternsLoader.cs" />
     <Compile Include="Pattern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Patterns.Designer.cs">

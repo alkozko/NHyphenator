@@ -29,7 +29,7 @@ namespace NHyphenator.Tests
 
 			var avg = stopWatches.Average();
 			var disp = stopWatches.Select(x => Math.Abs(avg - x)).Max();
-			Console.WriteLine("{0} ± {1}",avg,disp);
+			Console.WriteLine(@"{0} ± {1}",avg,disp);
 		}		
 		
 		[Test]

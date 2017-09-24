@@ -118,5 +118,14 @@ namespace NHyphenator.Tests
 		    var hyphenateText = hypenator.HyphenateText(text);
             Assert.AreEqual("об-ра-бо-та-но", hyphenateText);
 		}
+
+        [Test]
+		public void LoadingDataByLoader()
+		{
+		    var text = "обработано";
+		    Hyphenator hypenator = new Hyphenator(new ResourceHyphenatePatternsLoader(HyphenatePatternsLanguage.Russian), "-", 2, 2);
+		    var hyphenateText = hypenator.HyphenateText(text);
+            Assert.AreEqual("об-ра-бо-та-но", hyphenateText);
+		}
 	}
 }

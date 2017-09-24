@@ -26,34 +26,37 @@ namespace NHyphenator
         /// <param name="minWordLength">Minimum word length for hyphenation word</param>
         /// <param name="minLetterCount">Minimum number of characters left on line</param>
         /// <param name="hyphenateLastWord">Hyphenate last word, NOTE: this option works only if input text contains more than one word</param>
+        [Obsolete("Please, load language patterns via Loader")]
         public Hyphenator(HyphenatePatternsLanguage language, string hyphenateSymbol = "&shy;", int minWordLength = 5, int minLetterCount = 3, bool hyphenateLastWord = false)
 		{
 			this._hyphenateSymbol = hyphenateSymbol;
 			this._minWordLength = minWordLength;
 			this._minLetterCount = minLetterCount >= 0 ? minLetterCount : 0;
 			this._hyphenateLastWord = hyphenateLastWord;
-			LoadPatterns(language);
+			LoadPatterns(new ResourceHyphenatePatternsLoader(language));
 		}
 
-		private void LoadPatterns(HyphenatePatternsLanguage language)
+        /// <summary>
+        /// Implementation of Frank Liang's hyphenation algorithm
+        /// </summary>
+        /// <param name="loader">ILoader for load hyphenation patterns</param>
+        /// <param name="hyphenateSymbol">Symbol used for denote hyphenation</param>
+        /// <param name="minWordLength">Minimum word length for hyphenation word</param>
+        /// <param name="minLetterCount">Minimum number of characters left on line</param>
+        /// <param name="hyphenateLastWord">Hyphenate last word, NOTE: this option works only if input text contains more than one word</param>
+        public Hyphenator(IHyphenatePatternsLoader loader, string hyphenateSymbol = "&shy;", int minWordLength = 5, int minLetterCount = 3, bool hyphenateLastWord = false)
 		{
-			//Used TEX hyphenation patterns. Read more on http://tug.org/tex-hyphen/
-
-			switch (language)
-			{
-				case HyphenatePatternsLanguage.EnglishUs:
-					CreatePatterns(Patterns.hyph_en_us_pat, Patterns.hyph_en_us_hyp);
-					break;
-				case HyphenatePatternsLanguage.EnglishBritish:
-					CreatePatterns(Patterns.hyph_en_gb_pat, Patterns.hyph_en_us_hyp);
-					break;
-				case HyphenatePatternsLanguage.Russian:
-					CreatePatterns(Patterns.hyph_ru_pat, Patterns.hyph_ru_hyp);
-					break;
-				default:
-					throw new ArgumentOutOfRangeException("language");
-			}
+			this._hyphenateSymbol = hyphenateSymbol;
+			this._minWordLength = minWordLength;
+			this._minLetterCount = minLetterCount >= 0 ? minLetterCount : 0;
+			this._hyphenateLastWord = hyphenateLastWord;
+		    LoadPatterns(loader);
 		}
+
+	    private void LoadPatterns(IHyphenatePatternsLoader loader)
+	    {
+	        CreatePatterns(loader.LoadPatterns(), loader.LoadExceptions());
+        }
 
 		private void CreatePatterns(string patternsString, string exeptionsString)
 		{
@@ -242,7 +245,7 @@ namespace NHyphenator
 		}
 	}
 
-	public enum HyphenatePatternsLanguage
+    public enum HyphenatePatternsLanguage
 	{
 		EnglishUs,
 		EnglishBritish,
