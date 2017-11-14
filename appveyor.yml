@@ -1,9 +1,0 @@
-
-
-
-deploy:
-  - provider: NuGet
-    symbol_server: https://ci.appveyor.com/nuget/drdanishbroadcastingcorporatio-c7048ky09ggt/api/v2/package
-    api_key:
-      secure: bk881jk0nc5sj24e9t55nka7
-    artifact: /.*\.symbols\.nupkg/
