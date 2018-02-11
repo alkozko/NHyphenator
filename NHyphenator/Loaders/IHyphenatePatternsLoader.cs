@@ -1,4 +1,4 @@
-﻿namespace NHyphenator
+﻿namespace NHyphenator.Loaders
 {
     public interface IHyphenatePatternsLoader
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NHyphenator
+namespace NHyphenator.Loaders
 {
     public class ResourceHyphenatePatternsLoader : IHyphenatePatternsLoader
     {

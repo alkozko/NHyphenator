@@ -1,5 +1,6 @@
 ﻿using System;
 using Moq;
+using NHyphenator.Loaders;
 using NUnit.Framework;
 
 namespace NHyphenator.Tests
