@@ -23,18 +23,13 @@ var result = hypenator.HyphenateText(text);
 
 This library contains build-in patterns for English and Russian languages (stored in .resx file)
 
-You can add (or update) language patterns through creating own implementation of `IHyphenatePatternsLoader` interface for load patterns from file
+You can add (or update) language patterns through using FilePatternsLoader and load patterns from files
 
-```c#
-public class MyPatternsLoader : IHyphenatePatternsLoader
-{
-    public string LoadExceptions() => File.ReadAllText("../data/hyph-fr.pat.txt");
-    public string LoadPatterns() => File.ReadAllText("../data/hyph-fr.hyp.txt");
-}
-...
-var loader = new MyPatternsLoader();
-var hypenator = new Hyphenator(loader, "-");
+```csharp
+var loader = new new FilePatternsLoader($"{patterns_path}", $"{exceptions_path}");
 ```
+
+Also you can create own implementation of `IHyphenatePatternsLoader` interface
 
 You can find patterns [here](https://github.com/hyphenation/tex-hyphen/tree/master/hyph-utf8/tex/generic/hyph-utf8/patterns/txt):
 `.pat.txt` files contain patterns, `.hyp.txt` files contain exceptions
