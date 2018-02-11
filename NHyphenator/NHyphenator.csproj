@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
     <Description>C# implementation of Frank Liang's hyphenation algorithm (also known as Knuth-Liang algorithm)</Description>
     <PackageProjectUrl>https://github.com/alkozko/NHyphenator</PackageProjectUrl>
     <Authors>Alexander Kozko</Authors>
@@ -12,6 +12,8 @@
     <RepositoryType></RepositoryType>
     <RepositoryUrl>https://github.com/alkozko/NHyphenator</RepositoryUrl>
     <Copyright>Copyright © Alexander Kozko 2013-2017</Copyright>
+    <AssemblyVersion>1.2.1.0</AssemblyVersion>
+    <FileVersion>1.2.1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'"> </ItemGroup>
