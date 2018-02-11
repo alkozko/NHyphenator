@@ -1,1 +1,0 @@
-nuget pack ../NHyphenator/NHyphenator.csproj -properties Configuration=Release
