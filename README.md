@@ -36,7 +36,7 @@ You can find patterns [here](https://github.com/hyphenation/tex-hyphen/tree/mast
 
 ## Licence
 
-Source code are distributed under MIT licence. 
+Source code are distributed under Apache 2.0 licence. 
 Hyphenation patterns are distributed under LaTeX Project Public License.
 
 ## Russian descripton
