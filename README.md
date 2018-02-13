@@ -39,6 +39,8 @@ You can find patterns [here](https://github.com/hyphenation/tex-hyphen/tree/mast
 Source code are distributed under Apache 2.0 licence. 
 Hyphenation patterns are distributed under LaTeX Project Public License.
 
+A bit more information you can find in my blog http://alkozko.ru/blog/post/NHyphenator-en
+
 ## Russian descripton
 
-Подробнее о библиотеке можно прочесть (на русском) в моем блоге http://alkozko.ru/Blog/Post/liang-hyphenation-algorithm-on-c-sharp
+Подробнее о библиотеке можно прочесть (на русском) в моем блоге http://alkozko.ru/Blog/Post/liang-hyphenation-algorithm-on-c-sharp и http://alkozko.ru/blog/post/nhyphenator-12
