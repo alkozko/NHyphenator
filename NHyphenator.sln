@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHyphenator", "NHyphenator\NHyphenator.csproj", "{CB8AF718-77A5-4582-83ED-0C850F34F1A5}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHyphenator", "NHyphenator\NHyphenator.csproj", "{CB8AF718-77A5-4582-83ED-0C850F34F1A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHyphenator.Tests", "NHyphenator.Tests\NHyphenator.Tests.csproj", "{B8D697D6-32DB-4AD4-8836-8D8A448B7C7C}"
 EndProject
@@ -22,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1A0BC83A-0F70-4A76-9C15-AB6BC5B6B9C1}
 	EndGlobalSection
 EndGlobal

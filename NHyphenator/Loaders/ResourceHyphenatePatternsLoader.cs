@@ -23,6 +23,14 @@ namespace NHyphenator.Loaders
                     _patterns = Patterns.hyph_ru_pat;
                     _exceptions = Patterns.hyph_ru_hyp;
                     break;
+                case HyphenatePatternsLanguage.German1901:
+                    _patterns = Patterns.hyph_de_1901_pat;
+                    _exceptions = Patterns.hyph_de_1901_hyp;
+                    break;
+                case HyphenatePatternsLanguage.German1996:
+                    _patterns = Patterns.hyph_de_1996_pat;
+                    _exceptions = Patterns.hyph_de_1996_hyp;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException("language");
             }

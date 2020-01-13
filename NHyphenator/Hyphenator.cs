@@ -66,6 +66,7 @@ namespace NHyphenator
 
 			var sep = new[] {' ', '\n', '\r'};
 			_patterns = patternsString.Split(sep, StringSplitOptions.RemoveEmptyEntries).Select(CreatePattern).ToList();
+			_patterns.Sort();
 			_exceptions = exeptionsString.Split(sep, StringSplitOptions.RemoveEmptyEntries).ToDictionary(x => x.Replace("-", ""), CreateHyphenateMaskFromExceptionString);
 		}
 
@@ -253,6 +254,8 @@ namespace NHyphenator
 	{
 		EnglishUs,
 		EnglishBritish,
-		Russian
+		Russian,
+		German1901,
+		German1996
 	}
 }

@@ -23,5 +23,5 @@ namespace NHyphenator.Tests
             var hyphenateText = hyphenator.HyphenateText("перенос");
             Assert.AreEqual("пе-ре-нос", hyphenateText);
         }
-    }
+            }
 }
