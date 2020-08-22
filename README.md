@@ -15,7 +15,7 @@ https://www.nuget.org/packages/NHyphenator/
 
 ```c#
 var loader = new ResourceHyphenatePatternsLoader(HyphenatePatternsLanguage.Russian);
-Hypenator hypenator = new Hypenator(loader, "-");
+Hypenator hypenator = new Hyphenator(loader, "-");
 var result = hypenator.HyphenateText(text);
 ```
 
