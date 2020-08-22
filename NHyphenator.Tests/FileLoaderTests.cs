@@ -1,27 +1,27 @@
 ﻿using NHyphenator.Loaders;
-using NUnit.Framework;
+using Xunit;
 
 namespace NHyphenator.Tests
 {
     public class FileLoaderTests
     {
-        [Test]
+        [Fact]
         public void LoadPatternsTest()
         {
             var loader = new FilePatternsLoader("./Resources/test_pat.txt");
             var hyphenator = new Hyphenator(loader, "-");
             var hyphenateText = hyphenator.HyphenateText("перенос");
-            Assert.AreEqual("пере-нос", hyphenateText);
+            Assert.Equal("пере-нос", hyphenateText);
         }
 
 
-        [Test]
+        [Fact]
         public void LoadExceptionsTest()
         {
             var loader = new FilePatternsLoader("./Resources/test_pat.txt", "./Resources/test_ex.txt");
             var hyphenator = new Hyphenator(loader, "-");
             var hyphenateText = hyphenator.HyphenateText("перенос");
-            Assert.AreEqual("пе-ре-нос", hyphenateText);
+            Assert.Equal("пе-ре-нос", hyphenateText);
         }
     }
 }
