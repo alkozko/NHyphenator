@@ -2,6 +2,7 @@
 
 namespace NHyphenator.Loaders
 {
+    [Obsolete("Please use FilePatternLoader")]
     public class ResourceHyphenatePatternsLoader : IHyphenatePatternsLoader
     {
         private readonly string _patterns;
