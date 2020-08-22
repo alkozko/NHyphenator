@@ -17,4 +17,16 @@
     <ProjectReference Include="..\NHyphenator\NHyphenator.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\hyph-de-1996.pat.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\test_ex.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\test_pat.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

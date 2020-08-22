@@ -121,6 +121,15 @@ namespace NHyphenator.Tests
 		    var hyphenateText = hypenator.HyphenateText(text);
             Assert.Equal("об-ра-бо-та-но", hyphenateText);
 		}
+		
+        [Fact]
+		public void CorrectPatternsWithSorting()
+		{
+		    var text = "Universitätsstadt";
+		    Hyphenator hypenator = new Hyphenator(new FilePatternsLoader("Resources/hyph-de-1996.pat.txt"), "-", sortPatterns: true);
+		    var hyphenateText = hypenator.HyphenateText(text);
+            Assert.Equal("Uni-ver-si-täts-stadt", hyphenateText);
+		}
 
         [Fact]
 		public void LoadingDataByLoader()
